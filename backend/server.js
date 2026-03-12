@@ -1,32 +1,20 @@
 const express = require("express");
 const cors = require("cors");
-const axios = require("axios");
+require("dotenv").config();
+
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Backend server running");
-});
+app.use("/auth", authRoutes);
 
-app.post("/classify", async (req, res) => {
-  const text = req.body.text;
+const PORT = process.env.PORT || 5000;
 
-  try {
-    const response = await axios.post(
-      "http://127.0.0.1:5001/classify",
-      { text: text }
-    );
+app.listen(PORT, () => {
 
-    res.json(response.data);
+  console.log(`Server running on port ${PORT}`);
 
-  } catch (error) {
-    res.status(500).json({ error: "ML service failed" });
-  }
-});
-
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
 });

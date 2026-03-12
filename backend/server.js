@@ -1,32 +1,22 @@
 const express = require("express");
-const cors = require("cors");
-const axios = require("axios");
+const pharmacyRoutes = require("./routes/pharmacyRoutes");
 
 const app = express();
 
-app.use(cors());
+// Middleware
 app.use(express.json());
 
+// Health check route
 app.get("/", (req, res) => {
-  res.send("Backend server running");
+  res.send("TeleHealth Backend Running 🚀");
 });
 
-app.post("/classify", async (req, res) => {
-  const text = req.body.text;
+// Pharmacy routes
+app.use("/pharmacy", pharmacyRoutes);
 
-  try {
-    const response = await axios.post(
-      "http://127.0.0.1:5001/classify",
-      { text: text }
-    );
+// Server Port
+const PORT = 5000;
 
-    res.json(response.data);
-
-  } catch (error) {
-    res.status(500).json({ error: "ML service failed" });
-  }
-});
-
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

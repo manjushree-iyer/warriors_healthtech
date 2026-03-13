@@ -2,58 +2,93 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
+const http = require("http");
+const { Server } = require("socket.io");
+
 const app = express();
 
 // Middleware
-app.use(cors({
-  origin: process.env.FRONTEND_URL || "*",
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
-// Import routes
-const authRoutes = require("./routes/authRoutes");
-const appointmentRoutes = require("./routes/appointmentRoutes");
-const consultationRoutes = require("./routes/consultationRoutes");
-const pharmacyRoutes = require("./routes/pharmacyRoutes");
-const prescriptionRoutes = require("./routes/prescriptionRoutes");
-const symptomRoutes = require("./routes/symptomRoutes");
+/* -------------------------
+   EXISTING ROUTES
+   (Keep these if they exist)
+-------------------------- */
 
-// Route middlewares
-app.use("/auth", authRoutes);
-app.use("/api", appointmentRoutes);
-app.use("/consultations", consultationRoutes);
-app.use("/pharmacy", pharmacyRoutes);
-app.use("/prescriptions", prescriptionRoutes);
-app.use("/symptoms", symptomRoutes);
+// Example routes – keep your existing ones
+// const authRoutes = require("./routes/authRoutes");
+// const consultationRoutes = require("./routes/consultationRoutes");
+// const pharmacyRoutes = require("./routes/pharmacyRoutes");
+// const prescriptionRoutes = require("./routes/prescriptionRoutes");
 
-// Health check route
+// app.use("/auth", authRoutes);
+// app.use("/consultations", consultationRoutes);
+// app.use("/pharmacy", pharmacyRoutes);
+// app.use("/prescriptions", prescriptionRoutes);
+
+/* -------------------------
+   TEST ROUTE
+-------------------------- */
+
 app.get("/", (req, res) => {
-  res.json({
-    status: "ok",
-    message: "CareConnect Telehealth Backend API Running",
-    timestamp: new Date().toISOString()
+  res.send("Telehealth Backend API Running");
+});
+
+/* -------------------------
+   CREATE HTTP SERVER
+-------------------------- */
+
+const server = http.createServer(app);
+
+/* -------------------------
+   SOCKET.IO SERVER
+-------------------------- */
+
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
+
+/* -------------------------
+   SIGNALING LOGIC
+-------------------------- */
+
+io.on("connection", (socket) => {
+
+  console.log("User connected:", socket.id);
+
+  // Join consultation room
+  socket.on("join-room", (roomId) => {
+
+    socket.join(roomId);
+
+    console.log(`User ${socket.id} joined room ${roomId}`);
+
   });
-});
 
-app.get("/health", (req, res) => {
-  res.json({ status: "healthy" });
-});
+  // Exchange WebRTC signals
+  socket.on("signal", (data) => {
 
-// Global error handler
-app.use((err, req, res, next) => {
-  console.error("Unhandled error:", err);
-  res.status(500).json({
-    success: false,
-    message: "Internal server error",
-    error: process.env.NODE_ENV !== "production" ? err.message : undefined
+    socket.to(data.roomId).emit("signal", data.signal);
+
   });
+
+  socket.on("disconnect", () => {
+
+    console.log("User disconnected:", socket.id);
+
+  });
+
 });
 
-// Server start
+/* -------------------------
+   START SERVER
+-------------------------- */
+
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📡 Database: Supabase (CareConnect)`);
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

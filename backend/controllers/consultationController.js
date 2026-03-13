@@ -32,8 +32,16 @@ exports.startConsultation = async (req, res) => {
       [appointment_id]
     );
 
+    const patient_id_res = await db.query(
+      `SELECT patient_id FROM appointments WHERE id=$1`,
+      [appointment_id]
+    );
+
     res.json({
-      consultation: consultation.rows[0],
+      consultation: {
+        ...consultation.rows[0],
+        patient_id: patient_id_res.rows[0].patient_id
+      },
       patient_records: patientRecord.rows[0]
     });
 
@@ -56,13 +64,19 @@ exports.getConsultationHistory = async (req, res) => {
 
     const { patientId } = req.params;
 
+    // Map user.id to internal patient_id if necessary
+    const patientRes = await db.query("SELECT id FROM patients WHERE user_id = $1", [patientId]);
+    const internalId = patientRes.rows.length > 0 ? patientRes.rows[0].id : patientId;
+
     const result = await db.query(
-      `SELECT c.*, a.doctor_id
+      `SELECT c.*, u.name as doctor_name
        FROM consultations c
-       JOIN appointments a
-       ON c.appointment_id = a.id
-       WHERE a.patient_id=$1`,
-      [patientId]
+       JOIN appointments a ON c.appointment_id = a.id
+       JOIN doctors d ON a.doctor_id = d.id
+       JOIN users u ON d.user_id = u.id
+       WHERE a.patient_id=$1
+       ORDER BY c.created_at DESC`,
+      [internalId]
     );
 
     res.json({

@@ -18,6 +18,7 @@ const consultationRoutes = require("./routes/consultationRoutes");
 const pharmacyRoutes = require("./routes/pharmacyRoutes");
 const prescriptionRoutes = require("./routes/prescriptionRoutes");
 const symptomRoutes = require("./routes/symptomRoutes");
+const doctorRoutes = require("./routes/doctorRoutes");
 
 // Route middlewares
 app.use("/auth", authRoutes);
@@ -26,6 +27,7 @@ app.use("/consultations", consultationRoutes);
 app.use("/pharmacy", pharmacyRoutes);
 app.use("/prescriptions", prescriptionRoutes);
 app.use("/symptoms", symptomRoutes);
+app.use("/doctors", doctorRoutes);
 
 // Health check route
 app.get("/", (req, res) => {

@@ -8,9 +8,11 @@ const pool = new Pool({
   }
 });
 
+
 pool.on("connect", () => {
   console.log("✅ Connected to Supabase PostgreSQL");
 });
+
 
 pool.on("error", (err) => {
   console.error("❌ Database connection error:", err.message);

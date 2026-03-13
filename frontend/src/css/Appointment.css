@@ -1,0 +1,228 @@
+/* ─── Appointment.css — Light Theme ─── */
+
+:root {
+  --navy-950: #060E1C;
+  --navy-900: #0A1628;
+  --navy-800: #0F2040;
+  --teal-600: #0D9488;
+  --teal-500: #14B8A6;
+  --teal-400: #2DD4BF;
+  --warm-white: #F8FAFC;
+  --slate-500: #64748B;
+  --rose: #FB7185;
+  --emerald: #059669;
+  --amber: #F59E0B;
+}
+
+body {
+  background: var(--warm-white);
+  color: var(--navy-900);
+}
+
+.appointment-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  width: 100%;
+}
+
+.appt-header {
+  margin-bottom: 3.5rem;
+  text-align: center;
+}
+
+.appt-header h1 {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 0.75rem;
+}
+
+.appt-header p {
+  font-size: 1rem;
+  color: var(--slate-500);
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+/* ── STEPS ── */
+.appt-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.step-num {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 2px solid #E2E8F0;
+  background: white;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800;
+  color: var(--slate-500);
+  transition: all 0.3s;
+}
+
+.step-item.active .step-num {
+  border-color: var(--teal-500);
+  color: var(--teal-600);
+  box-shadow: 0 0 0 4px rgba(20,184,166,0.1);
+}
+
+.step-item.done .step-num {
+  background: var(--teal-600);
+  border-color: var(--teal-600);
+  color: white;
+}
+
+.step-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--slate-500);
+}
+
+.step-line {
+  flex: 0 0 60px;
+  height: 2px;
+  background: #E2E8F0;
+}
+
+/* ── FORM CARD ── */
+.appt-form-card {
+  background: white;
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  border: 1px solid #F1F5F9;
+}
+
+.doctor-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.doctor-selector-card {
+  padding: 1.5rem;
+  background: #F8FAFC;
+  border: 2px solid #E2E8F0;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.doctor-selector-card:hover { border-color: var(--teal-400); transform: translateY(-2px); }
+.doctor-selector-card.selected { border-color: var(--teal-500); background: var(--teal-50); }
+
+.doctor-card-name { font-weight: 800; font-size: 1rem; margin-bottom: 0.25rem; }
+.doctor-card-spec { color: var(--slate-500); font-size: 0.85rem; font-weight: 600; }
+
+.appt-input, .appt-textarea {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 2px solid #E2E8F0;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.appt-input:focus, .appt-textarea:focus {
+  border-color: var(--teal-500);
+  box-shadow: 0 0 0 4px rgba(20,184,166,0.1);
+}
+
+.appt-submit-btn {
+  width: 100%;
+  padding: 1.25rem;
+  background: var(--teal-600);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(13,148,136,0.25);
+  transition: all 0.3s;
+}
+
+.appt-submit-btn:hover:not(:disabled) {
+  background: var(--teal-700);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(13,148,136,0.3);
+}
+
+.appt-back {
+  background: white;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--slate-500);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+  display: inline-block;
+}
+
+/* RESPONSIVE DESKTOP */
+@media (min-width: 1200px) {
+  .appointment-page {
+    padding: 5rem 2rem;
+  }
+  .appt-form-card {
+    padding: 3rem;
+  }
+  .doctor-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* RESPONSIVE TABLET */
+@media (max-width: 1199px) and (min-width: 768px) {
+  .appointment-page {
+    max-width: 800px;
+    padding: 4rem 2rem;
+  }
+  .doctor-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 767px) {
+  .appointment-page {
+    padding: 3rem 1.5rem;
+  }
+  .appt-header h1 {
+    font-size: 2rem;
+  }
+  .appt-form-card {
+    padding: 1.5rem;
+  }
+  .doctor-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .appt-steps {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .step-line {
+    flex: 0 0 40px;
+  }
+}

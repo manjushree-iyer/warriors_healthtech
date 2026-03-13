@@ -1,0 +1,269 @@
+/* ─── Symptom.css — Light Theme ─── */
+
+:root {
+  --navy-950: #060E1C;
+  --navy-900: #0A1628;
+  --navy-800: #0F2040;
+  --teal-600: #0D9488;
+  --teal-500: #14B8A6;
+  --teal-400: #2DD4BF;
+  --warm-white: #F8FAFC;
+  --slate-500: #64748B;
+  --rose: #FB7185;
+  --emerald: #059669;
+  --amber: #F59E0B;
+}
+
+body {
+  background: var(--warm-white);
+  color: var(--navy-900);
+}
+
+.symptom-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  width: 100%;
+}
+
+.symptom-header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.symptom-header h1 {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--navy-900);
+  margin-bottom: 0.75rem;
+}
+
+.symptom-header p {
+  font-size: 1rem;
+  color: var(--slate-500);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.symptom-input-card {
+  background: white;
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  border: 1px solid #F1F5F9;
+  margin-bottom: 2rem;
+}
+
+.symptom-input-card h3 {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+}
+
+.chip-input-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #F8FAFC;
+  border: 2px solid #E2E8F0;
+  border-radius: 16px;
+  margin-bottom: 1.5rem;
+  min-height: 64px;
+  transition: all 0.2s;
+}
+
+.chip-input-wrapper:focus-within {
+  border-color: var(--teal-500);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(20,184,166,0.1);
+}
+
+.symptom-chip {
+  background: var(--teal-600);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chip-remove {
+  background: none;
+  border: none;
+  color: white;
+  opacity: 0.8;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.chip-field {
+  flex: 1;
+  border: none;
+  background: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+  min-width: 150px;
+}
+
+.quick-chip {
+  background: white;
+  border: 1px solid #E2E8F0;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--slate-500);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.quick-chip:hover {
+  border-color: var(--teal-400);
+  color: var(--teal-600);
+  background: var(--teal-50);
+}
+
+.btn-analyze {
+  width: 100%;
+  padding: 1.25rem;
+  background: var(--teal-600);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(13,148,136,0.25);
+  transition: all 0.3s;
+}
+
+.btn-analyze:hover:not(:disabled) {
+  background: var(--teal-700);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(13,148,136,0.3);
+}
+
+.btn-analyze:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Result Card */
+.result-card {
+  background: white;
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  margin-bottom: 2rem;
+  border: 1px solid #F1F5F9;
+}
+
+.result-triage-badge {
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+
+.triage-emergency { background: #FFF1F2; color: var(--rose); }
+.triage-consult { background: #FFF7ED; color: var(--amber); }
+.triage-homecare { background: #F0FDFA; color: var(--teal-600); }
+
+.condition-pill {
+  background: #F1F5F9;
+  color: var(--navy-900);
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.result-advice {
+  background: #F8FAFC;
+  padding: 1.5rem;
+  border-radius: 16px;
+  line-height: 1.7;
+  font-size: 1rem;
+  margin: 1.5rem 0;
+}
+
+.history-card {
+  background: white;
+  border-radius: 24px;
+  padding: 2rem;
+  border: 1px solid #F1F5F9;
+}
+
+.history-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.symptom-back {
+  background: white;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--slate-500);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+  display: inline-block;
+}
+
+/* RESPONSIVE DESKTOP */
+@media (min-width: 1200px) {
+  .symptom-page {
+    padding: 5rem 2rem;
+  }
+  .symptom-input-card {
+    padding: 3rem;
+  }
+}
+
+/* RESPONSIVE TABLET */
+@media (max-width: 1199px) and (min-width: 768px) {
+  .symptom-page {
+    padding: 4rem 2rem;
+  }
+  .symptom-input-card {
+    padding: 2.5rem;
+  }
+}
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 767px) {
+  .symptom-page {
+    padding: 3rem 1.5rem;
+  }
+  .symptom-header h1 {
+    font-size: 2rem;
+  }
+  .symptom-input-card {
+    padding: 1.5rem;
+  }
+  .chip-input-wrapper {
+    padding: 0.75rem;
+  }
+  .btn-analyze {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+  .history-card {
+    padding: 1.5rem;
+  }
+}

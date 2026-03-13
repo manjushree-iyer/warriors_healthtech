@@ -8,8 +8,8 @@ Designed to run with minimal dependencies for low-resource environments.
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, validator
-from typing import List
+from pydantic import BaseModel, field_validator
+from typing import List, Optional
 import uvicorn
 import logging
 
@@ -40,7 +40,8 @@ app.add_middleware(
 class SymptomRequest(BaseModel):
     symptoms: List[str]
 
-    @validator("symptoms")
+    @field_validator("symptoms")
+    @classmethod
     def must_have_symptoms(cls, v):
         if not v or all(s.strip() == "" for s in v):
             raise ValueError("At least one symptom must be provided.")
@@ -55,6 +56,7 @@ class SymptomResponse(BaseModel):
     confidence: float
     advice: str
     matched_symptoms: List[str]
+    reasoning: Optional[str] = ""
 
 
 # ─────────────────────────────────────────────
@@ -82,6 +84,7 @@ def predict(req: SymptomRequest):
             confidence=result.confidence,
             advice=result.advice,
             matched_symptoms=result.matched_symptoms,
+            reasoning=result.reasoning,
         )
     except Exception as e:
         logger.error(f"Prediction error: {e}")

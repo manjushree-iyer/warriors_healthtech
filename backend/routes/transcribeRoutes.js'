@@ -1,0 +1,30 @@
+const express = require("express");
+const multer = require("multer");
+const { OpenAI } = require("openai");
+
+const router = express.Router();
+const upload = multer({ dest: "uploads/" });
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
+router.post("/transcribe", upload.single("audio"), async (req, res) => {
+  try {
+
+    const transcription = await openai.audio.transcriptions.create({
+      file: require("fs").createReadStream(req.file.path),
+      model: "whisper-1"
+    });
+
+    res.json({
+      text: transcription.text
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Transcription failed" });
+  }
+});
+
+module.exports = router;

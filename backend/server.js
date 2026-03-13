@@ -8,6 +8,9 @@ const prescriptionRoutes = require("./routes/prescriptionRoutes");
 >>>>>>> 2f7b55a (sign in page done)
 require("dotenv").config();
 
+const http = require("http");
+const { Server } = require("socket.io");
+
 const app = express();
 
 // Middleware
@@ -20,6 +23,7 @@ app.use(
   })
 );
 
+<<<<<<< HEAD
 // Import routes
 const authRoutes = require("./routes/authRoutes");
 const consultationRoutes = require("./routes/consultationRoutes");
@@ -38,13 +42,89 @@ app.use("/symptoms", symptomRoutes);
 // Test route
 app.get("/", (req, res) => {
   res.send("Telehealth Backend API Running");
+=======
+/* -------------------------
+   EXISTING ROUTES
+   (Keep these if they exist)
+-------------------------- */
+
+// Example routes – keep your existing ones
+// const authRoutes = require("./routes/authRoutes");
+// const consultationRoutes = require("./routes/consultationRoutes");
+// const pharmacyRoutes = require("./routes/pharmacyRoutes");
+// const prescriptionRoutes = require("./routes/prescriptionRoutes");
+
+// app.use("/auth", authRoutes);
+// app.use("/consultations", consultationRoutes);
+// app.use("/pharmacy", pharmacyRoutes);
+// app.use("/prescriptions", prescriptionRoutes);
+
+/* -------------------------
+   TEST ROUTE
+-------------------------- */
+
+app.get("/", (req, res) => {
+  res.send("Telehealth Backend API Running");
 });
 
-// Server start
+/* -------------------------
+   CREATE HTTP SERVER
+-------------------------- */
+
+const server = http.createServer(app);
+
+/* -------------------------
+   SOCKET.IO SERVER
+-------------------------- */
+
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
+
+/* -------------------------
+   SIGNALING LOGIC
+-------------------------- */
+
+io.on("connection", (socket) => {
+
+  console.log("User connected:", socket.id);
+
+  // Join consultation room
+  socket.on("join-room", (roomId) => {
+
+    socket.join(roomId);
+
+    console.log(`User ${socket.id} joined room ${roomId}`);
+
+  });
+
+  // Exchange WebRTC signals
+  socket.on("signal", (data) => {
+
+    socket.to(data.roomId).emit("signal", data.signal);
+
+  });
+
+  socket.on("disconnect", () => {
+
+    console.log("User disconnected:", socket.id);
+
+  });
+
+>>>>>>> vc
+});
+
+/* -------------------------
+   START SERVER
+-------------------------- */
+
 const PORT = process.env.PORT || 5000;
 =======
 const PORT = process.env.PORT || 5000;
 
+<<<<<<< HEAD
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
@@ -55,5 +135,8 @@ app.use("/auth", authRoutes);
 >>>>>>> 2f7b55a (sign in page done)
 
 app.listen(PORT, () => {
+=======
+server.listen(PORT, () => {
+>>>>>>> vc
   console.log(`Server running on port ${PORT}`);
 });
